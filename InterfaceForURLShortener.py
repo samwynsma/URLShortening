@@ -4,10 +4,13 @@ import urllib.parse
 import tkinter as tk
 from tkinter import messagebox
 
+import URLShortener as URLS
+
 class UserInterface:
 
     def __init__(self):
         self.urlText = ""
+        self.url_shortener = URLS.UrlShortener()
 
     def normalize_url(self, url: str) -> str | None:
         """Normalize and validate a URL string.
@@ -70,7 +73,13 @@ class UserInterface:
         self.info_label = tk.Label(window, text="", font=("Segoe UI", 10), fg="green", wraplength=420, justify="center")
         self.info_label.pack(pady=(8, 0))
 
+        tk.Button(button_frame, text="Get Shortened", width=16, command=self.get_shortened).grid(row=0, column=0, padx=6)
+        tk.Button(button_frame, text="Quit", width=16, command = window.destroy).grid(row=0, column=1, padx=6)
+
         window.mainloop()
+
+    def get_shortened(self):
+        self.info_label.config(text=str(self.url_shortener.shorten(self.url_entry.get())))
 
 def main():
     user = UserInterface()
